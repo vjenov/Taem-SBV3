@@ -36,9 +36,8 @@ public class PersonInit implements ApplicationRunner {
 				person.setBirthday(df.parse(arr[3]));
 				personRepository.save(person);
 			}
-
 		}
-
+		
 	}
 
 }

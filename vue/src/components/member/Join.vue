@@ -11,35 +11,33 @@
 <div class="row">
 <div class="col-xs-6 col-sm-6 col-md-6">
       <div class="form-group">
-        <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name">
+        <input v-model="name" type="text" name="name" id="name" class="form-control input-sm" placeholder="Name">
       </div>
     </div>
     <div class="col-xs-6 col-sm-6 col-md-6">
       <div class="form-group">
-        <input type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name">
+        <input v-model="birthday" type="text" name="birthday" id="birthday" class="form-control input-sm" placeholder="Birthday">
       </div>
     </div>
   </div>
 
   <div class="form-group">
-    <input type="email" name="email" id="email" class="form-control input-sm" placeholder="Email Address">
+    <input v-model="userid" type="text" name="userid" id="userid" class="form-control input-sm" placeholder="Userid">
   </div>
 
   <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6">
       <div class="form-group">
-        <input type="password" name="password" id="password" class="form-control input-sm" placeholder="Password">
+        <input v-model="passwd" type="password" name="passwd" id="passwd" class="form-control input-sm" placeholder="Password">
       </div>
     </div>
-    <div class="col-xs-6 col-sm-6 col-md-6">
+   <!--  <div class="col-xs-6 col-sm-6 col-md-6">
       <div class="form-group">
-        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password">
+        <input v-model="passwd" type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password">
       </div>
-    </div>
+    </div> -->
   </div>
-  
-  <input type="submit" value="Register" class="btn btn-info btn-block">
-
+  <button @click.prevent="join" type="submit" value="Register" class="btn btn-info btn-block">join</button>
 </form>
 </div>
 </div>
@@ -48,7 +46,42 @@
 </div>
 </template>
 <script>
-
+import axios from "axios"
+export default {
+	data () {
+		return {
+			context: 'http://localhost:8080/',
+			result: '',
+			userid:'',
+      passwd:'',
+      name:'',
+      birthday:''
+    }
+  },
+	methods : {
+    join(){
+      alert(this.userid)
+      let url = `${this.context}/join`
+      let data = {
+        userid: this.userid,
+        passwd: this.passwd,
+        name: this.name,
+        birthday: this.birthday
+      }
+      let headers = {
+				'authorization': 'JWT fefege..',
+				'Accept' : 'application/json',
+				'Content-Type': 'application/json'
+      }
+     axios.post(url, data, headers).then(()=>{
+				alert(`axios 회원가입성공 ${this.userid}`)
+				this.$router.push({path : '/login'})
+			}).catch(()=>{
+				alert('axios 실패')
+			})
+		}
+	}
+}
 </script>
 <style scoped>
 .centered-form{
