@@ -30,4 +30,12 @@ public class Person {
 	@Temporal(TemporalType.DATE)
 	@Column(name="BIRTHDAY", nullable=false) 
 	private Date birthday;
+	@Column(name="GENDER", nullable=false)
+	private String gender;
+	@Column(name="HAK", nullable=false)
+	private String hak;
+	@Column(name="BAN", nullable=false)
+	private String ban;
+	@Column(name="SCORE", nullable=false)
+	private String score;
 }

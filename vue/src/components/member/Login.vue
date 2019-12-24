@@ -29,6 +29,12 @@ export default {
 			result: '',
 			userid:'',
 			passwd:'',
+			name : '',
+			birthday : '',
+			gender : '',
+			hak : '',
+			ban : '',
+			score : '',
 			person:{}
 		}
 	},
@@ -54,6 +60,12 @@ export default {
 					store.state.name = this.person.name
 					store.state.birthday = this.person.birthday
 					store.state.id = this.person.id
+					store.state.userid = this.person.userid
+					store.state.passwd = this.person.passwd
+					store.state.gender = this.person.gender
+					store.state.hak = this.person.hak
+					store.state.ban = this.person.ban
+					store.state.score = this.person.score
 					alert(`스토어에 저장성공 ${store.state.name}`)
 					this.$router.push({path : '/myPage'})
 				}else{

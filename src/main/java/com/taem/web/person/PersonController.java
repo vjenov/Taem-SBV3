@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +52,10 @@ public class PersonController {
 		printer.accept(String.format("UserID: %s", param.getUserid()));
 		printer.accept(String.format("Password: %s", param.getPasswd()));
 		personRepository.save(param);
-		System.out.println(param.getUserid() + "&" + param.getPasswd());
+	}
+	@DeleteMapping("/withdrawal/{userid}")
+	public void withdrawal(@PathVariable String userid) {
+		printer.accept(userid);
+		personRepository.delete(personRepository.findByUserid(userid));
 	}
 }
