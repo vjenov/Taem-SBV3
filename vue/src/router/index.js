@@ -1,25 +1,34 @@
+import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
-import Login from '@/components/member/Login'
+import List from '@/components/member/PlayerList'
+import Articles from '@/components/board/Articles'
+import ArticleRemoval from '@/components/board/ArticleRemoval'
+import ArticleFindOne from '@/components/board/ArticleFindOne'
+import ArticlesFindSome from '@/components/board/ArticlesFindSome'
+import ArticleEdit from '@/components/board/ArticleEdit'
+import ArticleAdd from '@/components/board/ArticleAdd'
 import Join from '@/components/member/Join'
-import MyPage from  '@/components/member/MyPage'
-/* import List from  '@/components/board/List'
-import Remove from  '@/components/board/Remove'
-import Update from  '@/components/board/Update'
-import Search from  '@/components/board/Search'
-import Write from  '@/components/board/Write' */
+import Login from '@/components/member/Login'
+import MyPage from '@/components/member/MyPage'
+import MyPageUpdate from '@/components/member/MyPageUpdate'
+import Admin from '@/components/member/Admin'
+
+Vue.use(Router)
+
 export default new Router({
 	mode: 'history',
-	routes: [
-		{path:'/', name:'', component: null},
-		{path:'/home', name:'home', component: Home},
-		{path:'/login', name:'login', component: Login},
-		{path:'/join', name:'join', component: Join},
-		{path:'/myPage', name:'myPage', component: MyPage},
-	/* 	{path:'/list', name:'list', component: List},
-		{path:'/remove', name:'remove', component: Remove},
-		{path:'/update', name:'update', component: Update},
-		{path:'/search', name:'search', component: Search},
-		{path:'/write', name:'write', component: Write} */
+	routes : [
+		{path: '/list',name: 'list', component: List},
+		{path: '/articles',name: 'articles', component: Articles},
+		{path: '/articleRemoval',name: 'articleRemoval', component: ArticleRemoval},
+		{path: '/articleEdit',name: 'articleEdit', component: ArticleEdit},
+		{path: '/articleFindOne',name: 'articleFindOne', component: ArticleFindOne},
+		{path: '/articlesFindSome',name: 'articlesFindSome', component: ArticlesFindSome},
+		{path: '/articleAdd',name: 'articleAdd', component: ArticleAdd},
+		{path: '/join',name: 'join', component: Join},
+		{path: '/login',name: 'login', component: Login},
+		{path: '/myPage',name: 'myPage', component: MyPage},
+		{path: '/myPageUpdate',name: 'myPageUpdate', component: MyPageUpdate},
+		{path: '/admin',name: 'admin', component: Admin}
 	]
 })

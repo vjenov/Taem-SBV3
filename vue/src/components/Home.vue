@@ -1,58 +1,50 @@
 <template>
 	<div id="app">
-		<Layout>
+		<layout>
 			<template #header="header">
 				<h1>{{header.title}}</h1>
+				<component :is="!loginCheck ? 'pre-auth' : 'post-auth'"></component>
 			</template>
 			<template #sidebar="sidebar">
-				<ul class="menu">
-				<li v-for="i of sidebars" :key="i.menu">
-				<router-link :to="i.link">{{i.menu}}<br></router-link>
-				</li>
-				</ul>
+				<component :is="sidebarCheck"></component>
 			</template>
-			<template #content="content">
-				<div>
-				<router-view/>
-				</div>
-			</template>
-			<template #footer="footer">
-				<footer>
-				{{footer.title}}
-				</footer>
-			</template>
-		</Layout>
+			<template #content="content"><router-view/></template>
+			<template #footer="footer">{{footer.title}}</template>
+		</layout>
 	</div>
 </template>
 <script>
 import Layout from "@/components/cmm/Layout.vue"
+import PostAuth from "@/components/cmm/PostAuth.vue"
+import PreAuth from "@/components/cmm/PreAuth.vue"
+import ManagerSidebar from "@/components/cmm/ManagerSidebar.vue"
+import PreSidebar from "@/components/cmm/PreSidebar.vue"
+import PlayerSidebar from "@/components/cmm/PlayerSidebar.vue"
+import { store } from "@/store"
 export default {
-	components : {Layout},
+	components : {Layout, PreAuth, PostAuth, ManagerSidebar, PreSidebar, PlayerSidebar},
 	data() {
 		return {
-			sidebars: [
-				{menu : "Home", link: "/"},
-				{menu : "로그인", link: "/login"},
-				{menu : "조인", link: "/join"},
-				{menu : "글쓰기", link: "/write"},
-				{menu : "목록", link: "/list"},
-				{menu : "글수정", link: "/update"},
-				{menu : "글삭제", link: "/remove"},
-				{menu : "검색", link: "/search"},
-				{menu : "마이페이지", link: "/myPage"}
-			]
+		}
+	},
+	computed:{
+		loginCheck: function(){
+			return store.state.authCheck
+		},
+		sidebarCheck: function(){
+			return store.state.sidebar
 		}
 	}
 }
 </script>
 <style scoped>
 ul.menu {
-	position:relative;
-	padding: 5px 5px 5px 5px;
-	list-style: none;
-	font-style: italic;
+    position:relative;
+    padding: 5px 5px 5px 5px;
+    list-style: none;
+    font-style: italic;
 }
 ul.menu a {
-	text-decoration:none;
+    text-decoration:none;
 }
 </style>

@@ -2,11 +2,17 @@ package com.taem.web.person;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Stream;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +27,9 @@ public class PersonController {
 	@Autowired
 	private PersonRepository personRepository;
 	@Autowired private Printer printer;
+	@Autowired private Person person;
+	@Autowired private ModelMapper modelMapper;
+	@Bean public ModelMapper modelMapper() {return new ModelMapper();}
 	@RequestMapping("/")
 	public String index() {
 		Iterable<Person> all = personRepository.findAll();
@@ -57,5 +66,18 @@ public class PersonController {
 	public void withdrawal(@PathVariable String userid) {
 		printer.accept(userid);
 		personRepository.delete(personRepository.findByUserid(userid));
+	}
+	@GetMapping("/players")
+	public Stream<PersonDTO> list() {
+		System.out.println("리스트 컨트롤러 진입");
+		Iterable<Person> entities = personRepository.findAll();
+		
+		List<PersonDTO> list = new ArrayList<>();
+		for(Person p:entities) {
+			PersonDTO dto = modelMapper.map(p, PersonDTO.class);
+			list.add(dto);
+		}
+		printer.accept("list count" + list.size());
+		return list.stream().filter(role-> role.getRole().equals("player"));
 	}
 }

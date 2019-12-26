@@ -1,31 +1,37 @@
 <template>
-	<div class="wrapper">
-	<header>
-		<slot name="header" :title="headerTitle"></slot>
-	</header>
-	<aside>
-		<slot name="sidebar"></slot>
-	</aside>
-	<section>
-		<slot name="content" :title="contentTitle"></slot>
-	</section>
-	<footer>
-		<slot name="footer" :title="footerTitle"></slot>
-	</footer>
+	<div id="wrapper">
+		<header>
+			<slot name="header" :title="changeMessage"></slot>
+		</header>
+		<aside id="sidebar">
+			<slot name="sidebar"></slot>
+		</aside>
+		<section id="content">
+			<slot name="content" :title="contnent"></slot>
+		</section>
+		<footer>
+			<slot name="footer" :title="footer"></slot>
+		</footer>
 	</div>
 </template>
 <script>
-export default{
+import {store} from "@/store"
+export default {
 	data() {
 		return {
-			headerTitle : "집에 가고싶다",
-			contentTitle : "정말 가고싶다",
-			footerTitle : "진짜 가고싶다"
+			contnent : "집에 가고싶다",
+			footer : "진짜 가고싶다"
 		}
-	}
+     },
+     computed: {
+          changeMessage : function() {
+               return store.state.headerMessage
+          }
+     }
 }
 </script>
 <style scoped>
+/* 전체 구조 */
 #wrapper {
      padding: 5px;
      width: 960px;
@@ -49,7 +55,9 @@ header {
 footer {
      clear: both;
      padding: 0 15px;
-}@media screen and (max-width: 980px) {     
+}
+/* 가로폭 980보다 작을 때 사용할 @media query */
+@media screen and (max-width: 980px) {     
      #pagewrap {
            width: 94%;
      }
@@ -69,6 +77,7 @@ footer {
            padding: 1% 4%;
      }
 }
+/* 공통 */
 #content {
      background: #f8f8f8;
 }

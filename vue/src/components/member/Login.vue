@@ -26,20 +26,12 @@ export default {
 	data () {
 		return {
 			context: 'http://localhost:8080/',
-			result: '',
 			userid:'',
-			passwd:'',
-			name : '',
-			birthday : '',
-			gender : '',
-			hak : '',
-			ban : '',
-			score : '',
-			person:{}
+			passwd:''
 		}
 	},
 	methods : {
-		login(){
+		login() {
 			alert(this.userid)
 			let url = `${this.context}/login`
 			let data = {
@@ -53,28 +45,31 @@ export default {
 			}
 			axios.post(url, data, headers).then(res=>{
 				if(res.data.result === "SUCCESS"){
-					alert(`로그인성공 ${this.userid}`)
-					this.person = res.data.person
-					store.state.loginedUid = this.person.userid
-					store.state.loginedPwd = this.person.passwd
-					store.state.name = this.person.name
-					store.state.birthday = this.person.birthday
-					store.state.id = this.person.id
-					store.state.userid = this.person.userid
-					store.state.passwd = this.person.passwd
-					store.state.gender = this.person.gender
-					store.state.hak = this.person.hak
-					store.state.ban = this.person.ban
-					store.state.score = this.person.score
-					alert(`스토어에 저장성공 ${store.state.name}`)
-					this.$router.push({path : '/myPage'})
+					store.state.person = res.data.person
+					store.state.authCheck = true
+					alert(`스토어에 저장성공 ${store.state.authCheck}`)
+					if(store.state.person.role !== 'player') {
+						store.state.sidebar = 'managerSidebar'
+						this.$router.push({path: '/admin'})
+					}else{
+						store.state.sidebar = 'playerSidebar'
+						this.$router.push({path: '/myPage'})
+					}
 				}else{
 					alert(`로그인실패`)
 					this.$router.push({path : '/login'})
 				}
-			}).catch(()=>{
+				}).catch(()=>{
 				alert('axios 실패')
-			})
+				})
+		}
+	},
+	computed:{
+		loginCheck: function(){
+			return store.state.authCheck
+		},
+		sidebarCheck: function(){
+			return store.state.sidebar
 		}
 	}
 }
