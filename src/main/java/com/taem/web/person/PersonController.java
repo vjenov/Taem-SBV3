@@ -80,4 +80,35 @@ public class PersonController {
 		printer.accept("list count" + list.size());
 		return list.stream().filter(role-> role.getRole().equals("player"));
 	}
+	@GetMapping("/players/{searchWord}")
+	public Stream<PersonDTO> findSome(@PathVariable String searchWord) {
+		switch(searchWord) {
+			case "namesOfStudents" : break;
+			case "streamToArray" : break;
+			case "streamToMap" : break;
+			case "theNumberOfStudents" : break;
+			case "totalScore" : break;
+			case "topStudent" : break;
+			case "getStat" : break;
+			case "nameList" : break;
+			case "partioningBy" : break;
+			case "partioningCountPerGender" : break;
+			case "partioningTopPerGender" : break;
+			case "partioningRejectPerGender" : break;
+			case "groupingByBan" : break;
+			case "groupingByGrade" : break;
+			case "groupingByCountByLevel" : break;
+			case "groupingByHakAndBan" : break;
+			case "groupingTopByHakAndBan" : break;
+			case "groupingByStat" : break;
+		}
+		Iterable<Person> entities = personRepository.findGroupByHak();
+		List<PersonDTO> list = new ArrayList<>();
+		for(Person p:entities) {
+			PersonDTO dto = modelMapper.map(p, PersonDTO.class);
+			list.add(dto);
+		}
+		printer.accept("list count" + list.size());
+		return list.stream().filter(role-> role.getRole().equals("player"));
+	}
 }

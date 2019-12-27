@@ -15,35 +15,42 @@ import org.springframework.stereotype.Component;
 import lombok.Data;
 @Data
 @Entity
-@Component
 @Table(name= "PERSON",
 uniqueConstraints={
 	@UniqueConstraint(
 		columnNames={"USERID"}
 	)
 })
-public class Person {
+@Component
+public class Person implements Comparable<Person>{
 	@Id
 	@GeneratedValue
 	@Column(name="ID", nullable=false) 
 	private Long id;
-	@Column(name="USERID", nullable=false) 
+	@Column(name="USERID",length = 64, nullable=false) 
 	private String userid;
-	@Column(name="PASSWD", nullable=false) 
+	@Column(name="PASSWD",length = 64, nullable=false) 
 	private String passwd;
-	@Column(name="NAME", nullable=false) 
+	@Column(name="NAME",length = 64, nullable=false) 
 	private String name;
 	@Temporal(TemporalType.DATE)
 	@Column(name="BIRTHDAY", nullable=false) 
 	private Date birthday;
-	@Column(name="GENDER", nullable=false)
-	private String gender;
+	@Column(name="MALE", nullable=false)
+	private boolean male;
 	@Column(name="HAK", nullable=false)
-	private String hak;
+	private int hak;
 	@Column(name="BAN", nullable=false)
-	private String ban;
+	private int ban;
 	@Column(name="SCORE", nullable=false)
-	private String score;
+	private int score;
 	@Column(name="ROLE", nullable=false)
 	private String role;
+	enum Level{HIGH, MID, LOW}
+	@Override
+	public int compareTo(Person o) {
+		return o.score - this.score;
+	}
+	
+	
 }

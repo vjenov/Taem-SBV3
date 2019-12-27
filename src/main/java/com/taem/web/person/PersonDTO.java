@@ -14,8 +14,8 @@ public class PersonDTO {
 	private String name;
 	private Date birthday;
 	private String gender;
-	private String hak;
-	private String ban;
-	private String score;
+	private int hak;
+	private int ban;
+	private int score;
 	private String role;
 }

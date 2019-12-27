@@ -12,6 +12,8 @@ import Login from '@/components/member/Login'
 import MyPage from '@/components/member/MyPage'
 import MyPageUpdate from '@/components/member/MyPageUpdate'
 import Admin from '@/components/member/Admin'
+import PlayerFindOne from '@/components/player/PlayerFindOne'
+import PlayersFindSome from '@/components/player/PlayersFindSome'
 
 Vue.use(Router)
 
@@ -25,6 +27,8 @@ export default new Router({
 		{path: '/articleFindOne',name: 'articleFindOne', component: ArticleFindOne},
 		{path: '/articlesFindSome',name: 'articlesFindSome', component: ArticlesFindSome},
 		{path: '/articleAdd',name: 'articleAdd', component: ArticleAdd},
+		{path: '/playerFindOne',name: 'playerFindOne', component: PlayerFindOne},
+		{path: '/playersFindSome',name: 'playersFindSome', component: PlayersFindSome},
 		{path: '/join',name: 'join', component: Join},
 		{path: '/login',name: 'login', component: Login},
 		{path: '/myPage',name: 'myPage', component: MyPage},

@@ -1,5 +1,8 @@
 package com.taem.web.person;
 
+
+import com.taem.web.proxy.Proxy;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -9,7 +12,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PersonInit implements ApplicationRunner {
+public class PersonInit extends Proxy implements ApplicationRunner {
 	private PersonRepository personRepository;
 	private static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -43,7 +46,7 @@ public class PersonInit implements ApplicationRunner {
 					{"olajuwon", "1", "하킴올라주원", "1973-11-17", "M", "4", "1", "95", "coach"},
 					{"chamberlain", "1", "윌트체임벌린", "1965-02-27", "M", "4", "1", "95", "legend"},
 					{"george", "1", "폴조지", "1990-08-18", "M", "2", "2", "90", "player"},
-					{"westbrook", "1", "러셀웨스트브룩", "1990-06-01", "M", "2", "2", "80", "player"},
+					{"westbrook", "1", "러셀웨스트브룩", "1990-06-01", "M", "2", "2", "75", "player"},
 					{"irving", "1", "카이리어빙", "1991-10-26", "M", "1", "2", "85", "player"},
 					{"dunkan", "1", "팀던컨", "1976-04-25", "M", "3", "2", "90", "retired"},
 					{"nowitzki", "1", "더크 노비츠키", "1978-06-19", "M", "3", "2", "90", "retired"},
@@ -51,6 +54,8 @@ public class PersonInit implements ApplicationRunner {
 					{"antetokounmpo", "1", "야니스 아테토쿤보", "1994-12-06", "M", "1", "2", "90", "player"},
 					{"embiid", "1", "조엘 엠비드", "1994-03-16", "M", "1", "2", "80", "player"},
 					{"simmons", "1", "벤 시몬스", "1996-07-20", "M", "1", "2", "70", "player"},
+					{"ball", "1", "론조볼", "1998-06-14", "M", "1", "1", "70", "player"},
+					{"kuzma", "1", "카일쿠즈마", "1998-04-19", "M", "1", "1", "73", "player"},
 					{"bryant", "1", "코비 브라이언트", "1978-08-23", "M", "3", "1", "90", "legend"},
 					{"pippen", "1", "스카티 피펜", "1965-06-26", "M", "3", "1", "90", "retired"},
 					{"you", "1", "유관순", "1985-09-09", "F", "4", "1","90", "legend"}};
@@ -60,10 +65,10 @@ public class PersonInit implements ApplicationRunner {
 				person.setPasswd(arr[1]);
 				person.setName(arr[2]);
 				person.setBirthday(df.parse(arr[3]));
-				person.setGender(arr[4]);
-				person.setHak(arr[5]);
-				person.setBan(arr[6]);
-				person.setScore(arr[7]);
+				person.setMale(Boolean.parseBoolean(arr[4]));
+				person.setHak(integer(arr[5]));
+				person.setBan(integer(arr[6]));
+				person.setScore(integer(arr[7]));
 				person.setRole(arr[8]);
 				personRepository.save(person);
 			}

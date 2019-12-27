@@ -12,9 +12,10 @@ export default{
 	data(){
 		return {
 			sidebars : [
-				{menu:"학생목록",link:"/list"},
-				{menu:"학생성적수정",link:"/update"},
-				{menu:"학생검색",link:"/search"}
+				{menu:"선수목록",link:"/list"},
+				{menu:"조건별 선수검색",link:"/playersFindSome"},
+				{menu:"선수성적수정",link:"/update"},
+				{menu:"선수검색",link:"/playerFindOne"}
 			]
 		}
 	}
