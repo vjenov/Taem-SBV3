@@ -20,56 +20,28 @@
 </div>
 </template>
 <script>
-import axios from "axios"
-import {store} from "../../store"
+import { mapMutations } from 'vuex'
 export default {
 	data () {
 		return {
-			context: 'http://localhost:8080/',
 			userid:'',
 			passwd:''
 		}
 	},
 	methods : {
-		login() {
-			alert(this.userid)
-			let url = `${this.context}/login`
-			let data = {
-				userid: this.userid,
-				passwd: this.passwd
-			}
-			let headers = {
-				'authorization': 'JWT fefege..',
-				'Accept' : 'application/json',
-				'Content-Type': 'application/json'
-			}
-			axios.post(url, data, headers).then(res=>{
-				if(res.data.result === "SUCCESS"){
-					store.state.person = res.data.person
-					store.state.authCheck = true
-					alert(`스토어에 저장성공 ${store.state.authCheck}`)
-					if(store.state.person.role !== 'player') {
-						store.state.sidebar = 'managerSidebar'
-						this.$router.push({path: '/admin'})
-					}else{
-						store.state.sidebar = 'playerSidebar'
-						this.$router.push({path: '/myPage'})
-					}
-				}else{
-					alert(`로그인실패`)
-					this.$router.push({path : '/login'})
-				}
-				}).catch(()=>{
-				alert('axios 실패')
-				})
-		}
+		...mapMutations([
+			'increment' // this.increment()를 this.$store.commit('increment')에 매핑합니다.
+		]),
+		...mapMutations({
+			add: 'increment' // this.add()를 this.$store.commit('increment')에 매핑합니다.
+		}),
 	},
 	computed:{
 		loginCheck: function(){
-			return store.state.authCheck
+			return this.$store.state.authCheck
 		},
 		sidebarCheck: function(){
-			return store.state.sidebar
+			return this.$store.state.sidebars
 		}
 	}
 }

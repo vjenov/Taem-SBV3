@@ -1,7 +1,5 @@
 package com.taem.web.person;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,13 +21,13 @@ import com.taem.web.util.Printer;
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 public class PersonController {
-	private static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-	@Autowired
-	private PersonRepository personRepository;
+	@Autowired private PersonRepository personRepository;
 	@Autowired private Printer printer;
 	@Autowired private Person person;
-	@Autowired private ModelMapper modelMapper;
+	@Autowired ModelMapper modelMapper;
+	@Autowired PersonService personService;
 	@Bean public ModelMapper modelMapper() {return new ModelMapper();}
+	
 	@RequestMapping("/")
 	public String index() {
 		Iterable<Person> all = personRepository.findAll();
@@ -38,12 +36,14 @@ public class PersonController {
 		return sb.toString();
 	}
 	@PostMapping("/login")
-	public HashMap<String, Object> login(@RequestBody Person person) {
+	public HashMap<String, Object> login(@RequestBody Person param) {
 		HashMap<String, Object> map = new HashMap<>();
 		printer.accept("로그인진입");
-		printer.accept(String.format("UserID: %s", person.getUserid()));
-		printer.accept(String.format("Password: %s", person.getPasswd()));
-		person = personRepository.findByUseridAndPasswd(person.getUserid(), person.getPasswd());
+		printer.accept(String.format("UserID: %s", param.getUserid()));
+		printer.accept(String.format("Password: %s", param.getPasswd()));
+		person = personRepository.findByUseridAndPasswd(
+				param.getUserid(), 
+				param.getPasswd());
 		if(person != null) {
 			printer.accept("로그인 성공");
 			map.put("result", "SUCCESS");
@@ -68,47 +68,79 @@ public class PersonController {
 		personRepository.delete(personRepository.findByUserid(userid));
 	}
 	@GetMapping("/players")
-	public Stream<PersonDTO> list() {
+	public Stream<Person> list() {
 		System.out.println("리스트 컨트롤러 진입");
 		Iterable<Person> entities = personRepository.findAll();
 		
-		List<PersonDTO> list = new ArrayList<>();
+		List<Person> list = new ArrayList<>();
 		for(Person p:entities) {
-			PersonDTO dto = modelMapper.map(p, PersonDTO.class);
-			list.add(dto);
+			Person per = modelMapper.map(p, Person.class);
+			list.add(per);
 		}
 		printer.accept("list count" + list.size());
 		return list.stream().filter(role-> role.getRole().equals("player"));
 	}
-	@GetMapping("/players/{searchWord}")
-	public Stream<PersonDTO> findSome(@PathVariable String searchWord) {
+	@GetMapping("/players/search/{searchWord}")
+	public Stream<Person> findSome(@PathVariable String searchWord){
+		printer.accept("넘어온 검색어: "+searchWord);
+		List<Person> personDTOs = new ArrayList<>();
+		List<Person> persons = new ArrayList<>();;
+		String switchKey = "";
 		switch(searchWord) {
-			case "namesOfStudents" : break;
-			case "streamToArray" : break;
-			case "streamToMap" : break;
-			case "theNumberOfStudents" : break;
-			case "totalScore" : break;
-			case "topStudent" : break;
-			case "getStat" : break;
-			case "nameList" : break;
-			case "partioningBy" : break;
-			case "partioningCountPerGender" : break;
-			case "partioningTopPerGender" : break;
-			case "partioningRejectPerGender" : break;
-			case "groupingByBan" : break;
-			case "groupingByGrade" : break;
-			case "groupingByCountByLevel" : break;
-			case "groupingByHakAndBan" : break;
-			case "groupingTopByHakAndBan" : break;
-			case "groupingByStat" : break;
+			case "namesOfStudents" :break;
+			case "streamToArray" :break;
+			case "streamToMap" :break;
+			case "theNumberOfStudents" :break;
+			case "totalScore" :break;
+			case "topStudent" :break;
+			case "getStat" :break;
+			case "nameList" :break;
+			case "남학생목록":  case "여학생목록":
+				switchKey = (searchWord=="남") ? "partioningByMale" : "partioningByFemale";
+				break;
+			case "partioningCountPerGender" :break;
+			case "partioningTopPerGender" :break;
+			case "partioningRejectPerGender" :break;
+			case "groupingByBan" :break;
+			case "groupingByGrade" :break;
+			case "groupingByCountByLevel" :break;
+			case "3학년목록" :
+				switchKey = "groupingByHak";
+				break;
+			case "groupingByHakAndBan" :break;
+			case "groupingTopByHakAndBan" :break;
+			case "groupingByStat" :break;
 		}
-		Iterable<Person> entities = personRepository.findGroupByHak();
-		List<PersonDTO> list = new ArrayList<>();
-		for(Person p:entities) {
-			PersonDTO dto = modelMapper.map(p, PersonDTO.class);
-			list.add(dto);
+		switch(switchKey) {
+			case "namesOfStudents" :break;
+			case "streamToArray" :break;
+			case "streamToMap" :break;
+			case "theNumberOfStudents" :break;
+			case "totalScore" :break;
+			case "topStudent" :break;
+			case "getStat" :break;
+			case "nameList" :break;
+			case "partioningByMale" :
+				persons = personService.partioningByGender(true);
+				break;
+			case "partioningCountPerGender" :break;
+			case "partioningTopPerGender" :break;
+			case "partioningRejectPerGender" :break;
+			case "groupingByBan" :break;
+			case "groupingByGrade" :break;
+			case "groupingByCountByLevel" :break;
+			case "groupingByHakAndBan" :break;
+			case "groupingTopByHakAndBan" :break;
+			case "groupingByStat" :break;
+			case "groupingByHak" :
+				Iterable<Person> entites = personRepository.findGroupByHak();
+				personDTOs = new ArrayList<>();
+				for(Person p: entites) {
+					Person dto = modelMapper.map(p, Person.class);
+					personDTOs.add(dto);
+				}
 		}
-		printer.accept("list count" + list.size());
-		return list.stream().filter(role-> role.getRole().equals("player"));
+		return personDTOs.stream()
+				.filter(role-> role.getRole().equals("player"));
 	}
 }

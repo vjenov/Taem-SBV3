@@ -45,44 +45,6 @@
 </div>
 </div>
 </template>
-<script>
-import axios from "axios"
-export default {
-	data () {
-		return {
-			context: 'http://localhost:8080/',
-			result: '',
-			userid:'',
-      passwd:'',
-      name:'',
-      birthday:''
-    }
-  },
-	methods : {
-    join(){
-      alert(this.userid)
-      let url = `${this.context}/join`
-      let data = {
-        userid: this.userid,
-        passwd: this.passwd,
-        name: this.name,
-        birthday: this.birthday
-      }
-      let headers = {
-				'authorization': 'JWT fefege..',
-				'Accept' : 'application/json',
-				'Content-Type': 'application/json'
-      }
-     axios.post(url, data, headers).then(()=>{
-				alert(`axios 회원가입성공 ${this.userid}`)
-				this.$router.push({path : '/login'})
-			}).catch(()=>{
-				alert('axios 실패')
-			})
-		}
-	}
-}
-</script>
 <style scoped>
 .centered-form{
 	margin-top: 60px;

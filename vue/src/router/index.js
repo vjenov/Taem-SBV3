@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import List from '@/components/member/PlayerList'
+import Players from '@/components/player/Players'
 import Articles from '@/components/board/Articles'
 import ArticleRemoval from '@/components/board/ArticleRemoval'
 import ArticleFindOne from '@/components/board/ArticleFindOne'
@@ -20,7 +20,7 @@ Vue.use(Router)
 export default new Router({
 	mode: 'history',
 	routes : [
-		{path: '/list',name: 'list', component: List},
+		{path: '/players',name: 'players', component: Players},
 		{path: '/articles',name: 'articles', component: Articles},
 		{path: '/articleRemoval',name: 'articleRemoval', component: ArticleRemoval},
 		{path: '/articleEdit',name: 'articleEdit', component: ArticleEdit},

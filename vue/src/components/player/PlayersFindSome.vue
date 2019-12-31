@@ -22,12 +22,12 @@
 		<a @click.prevent="partioningTopPerGender">3.단순분할 (성별 1등) 남성 true  여성 false</a>
 		<a @click.prevent="partioningRejectPerGender">4.다중분할 (성별 불합격자,  50점이하) 남성 true 여성 false</a>
 		<a @click.prevent="groupingByBan">1. 단순 그룹화(반별로 그룹화)</a>
-		
 		<a @click.prevent="groupingByGrade">2. 단순그룹화(성적별로 그룹화)</a>
 		<a @click.prevent="groupingByCountByLevel">3. 단순그룹화 + 통계(성적별 학생수)</a>
-		<a @click.prevent="groupingByHakAndBan">4. 다중 그룹화 (학년별, 반별)</a>
-		<a @click.prevent="groupingTopByHakAndBan">5. 다중 그룹화 +통계 (학년별, 반별  1등)</a>
-		<a @click.prevent="groupingByStat">6. 다중그룹화 + 통계(학년별, 반별  성적그룹)</a>
+		<a @click.prevent="groupingByHak">4. 다중 그룹화 (학년별)</a>
+		<a @click.prevent="groupingByHakAndBan">5. 다중 그룹화 (학년별, 반별)</a>
+		<a @click.prevent="groupingTopByHakAndBan">6. 다중 그룹화 +통계 (학년별, 반별  1등)</a>
+		<a @click.prevent="groupingByStat">7. 다중그룹화 + 통계(학년별, 반별  성적그룹)</a>
     </form>
 	</div>
 <!-- 	<div>선수 목록
@@ -48,13 +48,36 @@ export default{
 	data() {
 		return {
 			context: 'http://localhost:8080/',
-			list: []
+			list: [],
+			searchWord:''
 		}
 	},
 	methods : {
 		find() {
 			axios
 			.get(`${this.context}/players/searchWord`)
+			.then(res =>{
+				this.list = res.data
+			})
+			.catch(e=>{
+				alert('AXIOS FAIL'+e)
+			})
+		},
+		groupingByHak(){
+			alert('검색어 :'+ this.searchWord) // 1학년 학생목록
+			axios
+			.get(`${this.context}/players/search/${this.searchWord}`)
+			.then(res =>{
+				this.list = res.data
+			})
+			.catch(e=>{
+				alert('AXIOS FAIL'+e)
+			})
+		},
+		partioningByGender(){
+			alert('검색어:'+this.searchWord)
+			axios
+			.get(`${this.context}/players/search/${this.searchWord}`)
 			.then(res =>{
 				this.list = res.data
 			})

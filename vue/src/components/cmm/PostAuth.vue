@@ -15,17 +15,20 @@ export default{
             store.state.sidebar = 'preSidebar'
             this.$router.push({path: '/login'})
             },
-            withdrawal(){
-                axios
-                .delete(`${this.context}/withdrawal/${store.state.person.userid}`)
-                .then(
-                    alert(`회원탈퇴 성공`)
-                )
-                .catch(()=>{
-                    alert(`회원탈퇴 실패`)
-                })
+           withdrawal(){
+            axios
+            .delete(`${this.context}/withdrawal/${store.state.person.userid}`)
+            .then(
+                store.state.person = {},
+                store.state.authCheck = false,
+                store.state.sidebar = 'preSidebar',
                 this.$router.push({path: '/login'})
-            }
+            )
+            .catch(()=>{
+                alert(`회원탈퇴 실패`)
+            })
+            
+        }
     }
     
 }
